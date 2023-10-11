@@ -24,6 +24,7 @@ public class AdminServiceImpl {
             admin.setEmail("admin@test.com");
             admin.setName("admin");
             admin.setRole(UserRole.ADMIN);
+            admin.setPhoneNumber("736661339");
             admin.setPassword(new BCryptPasswordEncoder().encode("admin"));
             userRepository.save(admin);
         }
