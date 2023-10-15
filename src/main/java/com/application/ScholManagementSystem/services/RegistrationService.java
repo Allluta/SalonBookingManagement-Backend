@@ -1,6 +1,7 @@
 package com.application.ScholManagementSystem.services;
 
 import com.application.ScholManagementSystem.entities.User;
+import com.application.ScholManagementSystem.enums.UserRole;
 import com.application.ScholManagementSystem.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,10 +22,11 @@ public class RegistrationService {
     public User registerUser(User user){
         Optional<User> existingUser = userRepository.findFirstByEmail(user.getEmail());
         if(existingUser.isPresent()){
-            throw new UserAlreadyExistsException("Użytkownik o podanych adresie email juz istnieje.");
+            throw new UserAlreadyExistsException("Użytkownik o podanym adresie email juz istnieje.");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(UserRole.USER);
         return userRepository.save(user);
     }
 

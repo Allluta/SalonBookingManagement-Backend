@@ -14,15 +14,19 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
-
+@EnableWebSecurity
 public class WebSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-       return httpSecurity.csrf().disable()
-               .authorizeHttpRequests().requestMatchers("/authenticate","/register").permitAll()
+       return httpSecurity
+               .cors()
                .and()
-               .authorizeHttpRequests().requestMatchers("").authenticated()
+               .csrf().disable()
+               .authorizeRequests()
+               .requestMatchers("/authenticate").permitAll()
+               .requestMatchers("/register").permitAll()
+               .anyRequest().authenticated()
                .and()
                .sessionManagement()
                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

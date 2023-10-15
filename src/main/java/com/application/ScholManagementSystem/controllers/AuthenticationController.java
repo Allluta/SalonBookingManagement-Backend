@@ -2,8 +2,12 @@ package com.application.ScholManagementSystem.controllers;
 
 import com.application.ScholManagementSystem.dto.AuthenticationRequest;
 import com.application.ScholManagementSystem.dto.AuthenticationResponse;
+import com.application.ScholManagementSystem.entities.User;
+import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 public class AuthenticationController {
@@ -29,19 +34,38 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-     @PostMapping("/authenticate")
-    public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws IOException {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public static final String TOKEN_PREFIX = "Bearer";
+    public static final String HEADER_STRING = "Authorization";
+
+    @PostMapping("/authenticate")
+    public void createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws IOException, JSONException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect Username or password");
-        } catch (DisabledException disabledException) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "User is not created");
-            return null;
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Login failed: Incorrect Username or password");
+            return;
+        } catch (DisabledException e) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "User is not created");
+            return;
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-        final  String jwt = jwtUtil.generateToken(userDetails.getUsername());
+        Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
 
-        return new AuthenticationResponse(jwt);
+        if (optionalUser.isPresent()) {
+            response.getWriter().write(new JSONObject()
+                    .put("userId", optionalUser.get().getId())
+                    .put("role", optionalUser.get().getRole())
+                    .toString());
+        }
+
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
+        response.setHeader("Access-Control-Allow-Headers", "Authorization, X-Pingother,Origin,X-Requested-With,Content-Type,Accept, X-Custom-header");
+        response.setHeader(HEADER_STRING, TOKEN_PREFIX + jwt);
+
     }
 }
