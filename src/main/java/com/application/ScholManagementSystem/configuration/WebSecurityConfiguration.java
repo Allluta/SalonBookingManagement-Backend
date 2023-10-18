@@ -26,6 +26,8 @@ public class WebSecurityConfiguration {
                .authorizeRequests()
                .requestMatchers("/authenticate").permitAll()
                .requestMatchers("/register").permitAll()
+               .requestMatchers("/hairdressers/**").permitAll()
+
                .anyRequest().authenticated()
                .and()
                .sessionManagement()
