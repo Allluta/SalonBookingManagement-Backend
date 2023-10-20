@@ -38,4 +38,8 @@ public class HairdresserController {
         hairdresserServiceImpl.deleteHairdresser(id);
     }
 
+    @GetMapping("/{id}")
+    public Hairdresser getHairdresserById(@PathVariable Long id) {
+        return hairdresserServiceImpl.getHairdresserById(id);
+    }
 }

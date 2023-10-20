@@ -3,6 +3,8 @@ package com.application.ScholManagementSystem.services.hairdresser;
 import com.application.ScholManagementSystem.entities.Hairdresser;
 import com.application.ScholManagementSystem.repositories.HairdresserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +14,16 @@ import java.util.Optional;
 public class HairdresserServiceImpl {
     private final HairdresserRepository hairdresserRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public HairdresserServiceImpl(HairdresserRepository hairdresserRepository) {
         this.hairdresserRepository = hairdresserRepository;
     }
     public Hairdresser createHairdresser(Hairdresser hairdresser) {
+
+        String encodedPassword = passwordEncoder.encode(hairdresser.getPassword());
+        hairdresser.setPassword(encodedPassword);
+
         // Tutaj możesz dodać logikę walidacji danych, jeśli jest to wymagane
         return hairdresserRepository.save(hairdresser);
     }
@@ -24,8 +32,9 @@ public class HairdresserServiceImpl {
         return hairdresserRepository.findAll();
     }
 
-    public Optional<Hairdresser> getHairdresserById(Long id) {
-        return hairdresserRepository.findById(id);
+    public Hairdresser getHairdresserById(Long id) {
+        Optional<Hairdresser> optionalHairdresser = hairdresserRepository.findById(id);
+        return optionalHairdresser.orElse(null); // Możesz obsłużyć brak istnienia fryzjera w inny sposób
     }
 
     public Hairdresser updateHairdresser(Long id, Hairdresser updatedHairdresser) {
@@ -37,6 +46,7 @@ public class HairdresserServiceImpl {
             hairdresser.setDescription(updatedHairdresser.getDescription());
             hairdresser.setExperience(updatedHairdresser.getExperience());
             hairdresser.setWorkingHours(updatedHairdresser.getWorkingHours());
+            hairdresser.setPassword(updatedHairdresser.getPassword());
             return hairdresserRepository.save(hairdresser);
         } else {
             throw new EntityNotFoundException("Profil fryzjera o podanym ID nie istnieje");

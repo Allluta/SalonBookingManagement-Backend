@@ -17,6 +17,8 @@ public class Hairdresser {
     private String experience;
     private String workingHours;
 
+    private String password;
+
     public Long getId() {
         return id;
     }
@@ -55,5 +57,13 @@ public class Hairdresser {
 
     public void setWorkingHours(String workingHours) {
         this.workingHours = workingHours;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
