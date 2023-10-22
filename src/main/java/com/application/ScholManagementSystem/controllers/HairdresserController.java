@@ -1,5 +1,6 @@
 package com.application.ScholManagementSystem.controllers;
 
+import com.application.ScholManagementSystem.dto.VerifyPasswordRequest;
 import com.application.ScholManagementSystem.entities.Hairdresser;
 import com.application.ScholManagementSystem.services.hairdresser.HairdresserServiceImpl;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,4 +43,13 @@ public class HairdresserController {
     public Hairdresser getHairdresserById(@PathVariable Long id) {
         return hairdresserServiceImpl.getHairdresserById(id);
     }
+    @PostMapping("/verifyPassword")
+    public boolean verifyPassword(@RequestBody VerifyPasswordRequest request) {
+        // Tutaj wykonaj logikę weryfikacji hasła
+        Long hairdresserId = request.getId();
+        String password = request.getPassword();
+
+        return hairdresserServiceImpl.verifyPassword(hairdresserId, password);
+    }
+
 }

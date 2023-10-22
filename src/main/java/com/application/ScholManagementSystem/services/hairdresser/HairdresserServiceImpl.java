@@ -16,9 +16,11 @@ public class HairdresserServiceImpl {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     public HairdresserServiceImpl(HairdresserRepository hairdresserRepository) {
         this.hairdresserRepository = hairdresserRepository;
     }
+
     public Hairdresser createHairdresser(Hairdresser hairdresser) {
 
         String encodedPassword = passwordEncoder.encode(hairdresser.getPassword());
@@ -57,4 +59,18 @@ public class HairdresserServiceImpl {
     public void deleteHairdresser(Long id) {
         hairdresserRepository.deleteById(id);
     }
+
+    public boolean verifyPassword(Long hairdresserId, String password) {
+
+        Hairdresser hairdresser = hairdresserRepository.findById(hairdresserId).orElse(null);
+
+        if (hairdresser != null) {
+            // Porównaj hasło z hasłem w bazie danych
+            return passwordEncoder.matches(password, hairdresser.getPassword());
+        } else {
+            return false;
+        }
+    }
 }
+
+
