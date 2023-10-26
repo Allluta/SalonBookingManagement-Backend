@@ -2,8 +2,11 @@ package com.application.ScholManagementSystem.controllers;
 
 import com.application.ScholManagementSystem.dto.VerifyPasswordRequest;
 import com.application.ScholManagementSystem.entities.Hairdresser;
+import com.application.ScholManagementSystem.entities.User;
+import com.application.ScholManagementSystem.enums.UserRole;
+import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.services.hairdresser.HairdresserServiceImpl;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,14 +16,35 @@ import java.util.List;
 
 public class HairdresserController {
     private final HairdresserServiceImpl hairdresserServiceImpl;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public HairdresserController(HairdresserServiceImpl hairdresserServiceImpl) {
+
+    public HairdresserController(HairdresserServiceImpl hairdresserServiceImpl, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.hairdresserServiceImpl = hairdresserServiceImpl;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-
 
     @PostMapping
     public Hairdresser createHairdresser(@RequestBody Hairdresser hairdresser) {
+        // Tworzymy obiekt User
+        User user = new User();
+        user.setEmail(hairdresser.getEmail());
+        user.setName(hairdresser.getName());
+
+        user.setPhoneNumber(hairdresser.getPhoneNumber());
+
+        // Ustawiamy rolę
+        user.setRole(UserRole.HAIRDRESSER);
+
+        String hashedPassword = passwordEncoder.encode(hairdresser.getPassword());
+        user.setPassword(hashedPassword);
+
+        // Zapisujemy obiekt User w bazie danych
+        userRepository.save(user);
+
+        // Teraz możemy zapisać obiekt Hairdresser w tabeli hairdressers
         return hairdresserServiceImpl.createHairdresser(hairdresser);
     }
 

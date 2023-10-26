@@ -3,6 +3,7 @@ package com.application.ScholManagementSystem.controllers;
 import com.application.ScholManagementSystem.dto.AuthenticationRequest;
 import com.application.ScholManagementSystem.dto.AuthenticationResponse;
 import com.application.ScholManagementSystem.entities.User;
+import com.application.ScholManagementSystem.enums.UserRole;
 import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,6 +53,15 @@ public class AuthenticationController {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "User is not created");
             return;
         }
+
+
+        // Dodaj kod do zapisywania fryzjera w tabeli "users" wraz z rolą i polem "email"
+        //User user = new User();
+        //user.setEmail(authenticationRequest.getEmail());
+        //user.setPassword(authenticationRequest.getPassword());
+
+
+        //userRepository.save(user);
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails.getUsername());

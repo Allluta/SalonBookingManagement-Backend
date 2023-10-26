@@ -26,6 +26,8 @@ public class HairdresserServiceImpl {
         String encodedPassword = passwordEncoder.encode(hairdresser.getPassword());
         hairdresser.setPassword(encodedPassword);
 
+        hairdresser.setEmail(hairdresser.getEmail());
+
         // Tutaj możesz dodać logikę walidacji danych, jeśli jest to wymagane
         return hairdresserRepository.save(hairdresser);
     }
@@ -36,7 +38,11 @@ public class HairdresserServiceImpl {
 
     public Hairdresser getHairdresserById(Long id) {
         Optional<Hairdresser> optionalHairdresser = hairdresserRepository.findById(id);
-        return optionalHairdresser.orElse(null); // Możesz obsłużyć brak istnienia fryzjera w inny sposób
+        if (optionalHairdresser.isPresent()) {
+            return optionalHairdresser.get();
+        } else {
+            throw new EntityNotFoundException("Fryzjer o podanym ID nie istnieje");
+        }
     }
 
     public Hairdresser updateHairdresser(Long id, Hairdresser updatedHairdresser) {

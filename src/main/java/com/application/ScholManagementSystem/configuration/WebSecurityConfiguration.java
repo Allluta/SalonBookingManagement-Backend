@@ -1,7 +1,9 @@
 package com.application.ScholManagementSystem.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,7 +30,10 @@ public class WebSecurityConfiguration {
                .requestMatchers("/register").permitAll()
                .requestMatchers("/hairdressers/**").permitAll()
                .requestMatchers("/user/**").permitAll()
-
+               .requestMatchers("/profile/**").permitAll()
+               .requestMatchers(HttpMethod.GET,"/users").permitAll()
+               .requestMatchers(HttpMethod.GET,"/services").permitAll()
+               .requestMatchers(HttpMethod.POST,"/services").permitAll()
                .anyRequest().authenticated()
                .and()
                .sessionManagement()

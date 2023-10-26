@@ -7,6 +7,8 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl {
 
@@ -18,8 +20,8 @@ public class AdminServiceImpl {
 
     @PostConstruct
     public void createAdminAccount(){
-        User adminAccount = userRepository.findByRole(UserRole.ADMIN);
-        if(adminAccount == null){
+        List<User> adminAccounts = userRepository.findByRole(UserRole.ADMIN);
+        if(adminAccounts.isEmpty()){
             User admin = new User();
             admin.setEmail("admin@test.com");
             admin.setName("admin");

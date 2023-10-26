@@ -5,6 +5,7 @@ import com.application.ScholManagementSystem.exceptions.UserAlreadyExistsExcepti
 import com.application.ScholManagementSystem.services.RegistrationService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +17,13 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    public RegistrationController(RegistrationService registrationService) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public RegistrationController(RegistrationService registrationService, BCryptPasswordEncoder passwordEncoder) {
         this.registrationService = registrationService;
+        this.passwordEncoder = passwordEncoder;
     }
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         HttpHeaders responseHeaders = new HttpHeaders();
