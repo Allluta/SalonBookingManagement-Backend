@@ -18,6 +18,7 @@ public class User {
     private String phoneNumber;
 
     private UserRole role;
+    private Long hairdresserId;
 
     public Long getId() {
         return id;
@@ -65,5 +66,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Long getHairdresserId() {
+        return hairdresserId;
+    }
+
+    public void setHairdresserId(Long hairdresserId) {
+        this.hairdresserId = hairdresserId;
     }
 }

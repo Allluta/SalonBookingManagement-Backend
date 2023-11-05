@@ -4,6 +4,7 @@ import com.application.ScholManagementSystem.dto.AuthenticationRequest;
 import com.application.ScholManagementSystem.dto.AuthenticationResponse;
 import com.application.ScholManagementSystem.entities.User;
 import com.application.ScholManagementSystem.enums.UserRole;
+import com.application.ScholManagementSystem.repositories.HairdresserRepository;
 import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +39,7 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
+    private HairdresserRepository hairdresserRepository;
 
     public static final String TOKEN_PREFIX = "Bearer";
     public static final String HEADER_STRING = "Authorization";
@@ -67,11 +69,14 @@ public class AuthenticationController {
         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
 
         if (optionalUser.isPresent()) {
-            response.getWriter().write(new JSONObject()
-                    .put("userId", optionalUser.get().getId())
-                    .put("role", optionalUser.get().getRole())
-                    .toString());
+            JSONObject responseJson = new JSONObject();
+            responseJson.put("userId", optionalUser.get().getId());
+            responseJson.put("role", optionalUser.get().getRole());
+            responseJson.put("hairdresser_id", optionalUser.get().getHairdresserId());
+            response.getWriter().write(responseJson.toString());
         }
+
+
 
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, X-Pingother,Origin,X-Requested-With,Content-Type,Accept, X-Custom-header");

@@ -25,7 +25,7 @@ public class ServiceServiceImpl {
     }
 
     public Service addService(Service service) {
-        // Dodaj logikę walidacji i zapisz nową usługę
+
         return serviceRepository.save(service);
     }
 

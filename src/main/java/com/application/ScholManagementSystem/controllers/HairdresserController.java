@@ -4,12 +4,15 @@ import com.application.ScholManagementSystem.dto.VerifyPasswordRequest;
 import com.application.ScholManagementSystem.entities.Hairdresser;
 import com.application.ScholManagementSystem.entities.User;
 import com.application.ScholManagementSystem.enums.UserRole;
+import com.application.ScholManagementSystem.repositories.HairdresserRepository;
 import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.services.hairdresser.HairdresserServiceImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/hairdressers")
@@ -18,12 +21,14 @@ public class HairdresserController {
     private final HairdresserServiceImpl hairdresserServiceImpl;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+     private final HairdresserRepository hairdresserRepository;
 
 
-    public HairdresserController(HairdresserServiceImpl hairdresserServiceImpl, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public HairdresserController(HairdresserServiceImpl hairdresserServiceImpl, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, HairdresserRepository hairdresserRepository) {
         this.hairdresserServiceImpl = hairdresserServiceImpl;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.hairdresserRepository = hairdresserRepository;
     }
 
     @PostMapping
@@ -45,7 +50,11 @@ public class HairdresserController {
         userRepository.save(user);
 
         // Teraz możemy zapisać obiekt Hairdresser w tabeli hairdressers
-        return hairdresserServiceImpl.createHairdresser(hairdresser);
+        // Teraz możemy zapisać obiekt Hairdresser w tabeli hairdressers
+        Hairdresser createdHairdresser = hairdresserServiceImpl.createHairdresser(hairdresser);
+
+        // Zwracamy stworzonego fryzjera w odpowiedzi
+        return createdHairdresser;
     }
 
     @GetMapping
@@ -75,5 +84,6 @@ public class HairdresserController {
 
         return hairdresserServiceImpl.verifyPassword(hairdresserId, password);
     }
+
 
 }
