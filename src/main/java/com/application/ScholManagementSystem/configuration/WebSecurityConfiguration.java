@@ -27,6 +27,7 @@ public class WebSecurityConfiguration {
                .csrf().disable()
                .authorizeRequests()
                .requestMatchers("/authenticate").permitAll()
+               .requestMatchers(HttpMethod.POST,"/authenticate").permitAll()
                .requestMatchers("/register").permitAll()
                .requestMatchers("/hairdressers/**").permitAll()
                .requestMatchers(HttpMethod.GET,"/hairdressers").permitAll()

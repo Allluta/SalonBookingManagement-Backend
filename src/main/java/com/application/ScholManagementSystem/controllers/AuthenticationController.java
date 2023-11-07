@@ -77,7 +77,6 @@ public class AuthenticationController {
         }
 
 
-
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, X-Pingother,Origin,X-Requested-With,Content-Type,Accept, X-Custom-header");
         response.setHeader(HEADER_STRING, TOKEN_PREFIX + jwt);

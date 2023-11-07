@@ -33,27 +33,20 @@ public class HairdresserController {
 
     @PostMapping
     public Hairdresser createHairdresser(@RequestBody Hairdresser hairdresser) {
-        // Tworzymy obiekt User
+
         User user = new User();
         user.setEmail(hairdresser.getEmail());
         user.setName(hairdresser.getName());
-
         user.setPhoneNumber(hairdresser.getPhoneNumber());
-
-        // Ustawiamy rolę
         user.setRole(UserRole.HAIRDRESSER);
 
         String hashedPassword = passwordEncoder.encode(hairdresser.getPassword());
         user.setPassword(hashedPassword);
 
-        // Zapisujemy obiekt User w bazie danych
-        userRepository.save(user);
-
-        // Teraz możemy zapisać obiekt Hairdresser w tabeli hairdressers
-        // Teraz możemy zapisać obiekt Hairdresser w tabeli hairdressers
         Hairdresser createdHairdresser = hairdresserServiceImpl.createHairdresser(hairdresser);
-
-        // Zwracamy stworzonego fryzjera w odpowiedzi
+        Long hairdresserId = createdHairdresser.getId();
+        user.setHairdresserId(hairdresserId);
+        userRepository.save(user);
         return createdHairdresser;
     }
 
