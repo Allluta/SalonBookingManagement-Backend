@@ -73,6 +73,7 @@ public class AuthenticationController {
             responseJson.put("userId", optionalUser.get().getId());
             responseJson.put("role", optionalUser.get().getRole());
             responseJson.put("hairdresser_id", optionalUser.get().getHairdresserId());
+            responseJson.put("email",optionalUser.get().getEmail());
             response.getWriter().write(responseJson.toString());
         }
 
