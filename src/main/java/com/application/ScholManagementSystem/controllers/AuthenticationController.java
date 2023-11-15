@@ -74,6 +74,7 @@ public class AuthenticationController {
             responseJson.put("role", optionalUser.get().getRole());
             responseJson.put("hairdresser_id", optionalUser.get().getHairdresserId());
             responseJson.put("email",optionalUser.get().getEmail());
+            responseJson.put("phoneNumber",optionalUser.get().getPhoneNumber());
             response.getWriter().write(responseJson.toString());
         }
 

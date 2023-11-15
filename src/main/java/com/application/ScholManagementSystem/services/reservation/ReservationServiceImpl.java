@@ -6,6 +6,9 @@ import com.application.ScholManagementSystem.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ReservationServiceImpl {
     @Autowired
@@ -24,5 +27,22 @@ public class ReservationServiceImpl {
 
         return reservationRepository.save(reservation);
     }
+
+    public List<Reservation> getUserReservations(String userEmail) {
+        return reservationRepository.findByEmail(userEmail);
+    }
+
+    public Optional<Reservation> getReservation(Long reservationId) {
+        return reservationRepository.findById(reservationId);
+    }
+    public List<Reservation> getHairdresserUpcomingReservations(Long hairdresserId) {
+        // Tutaj implementuj logikę pobierania nadchodzących rezerwacji dla danego fryzjera
+        // Użyj odpowiedniego zapytania do bazy danych
+        return reservationRepository.findHairdresserUpcomingReservations(hairdresserId);
+    }
+
+
+
+
 }
 
