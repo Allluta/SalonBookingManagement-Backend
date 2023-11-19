@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,10 +16,12 @@ public class Reservation {
 
     private Long serviceId;
     private Long hairdresserId;
-    private Date date;
+    private LocalDate date;
     private String time;
     private String email;
     private String phoneNumber;
+
+    private String status;
 
     public Long getId() {
         return id;
@@ -44,11 +47,11 @@ public class Reservation {
         this.hairdresserId = hairdresserId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -74,5 +77,13 @@ public class Reservation {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

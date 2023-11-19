@@ -59,7 +59,9 @@ public class WebSecurityConfiguration {
                .requestMatchers(HttpMethod.GET,"/payment/create-payment-intent").permitAll()
                .requestMatchers(HttpMethod.POST,"/payment/process-payment").permitAll()
                .requestMatchers(HttpMethod.GET,"/payment/process-payment").permitAll()
-
+               .requestMatchers(HttpMethod.GET,"/notifications").permitAll()
+               .requestMatchers(HttpMethod.GET,"/notifications/user/**").permitAll()
+               .requestMatchers(HttpMethod.PUT,"/notifications/cancel/**").permitAll()
                .anyRequest().authenticated()
                .and()
                .sessionManagement()

@@ -1,14 +1,20 @@
 package com.application.ScholManagementSystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ReservationRequest {
     private Long serviceId;
     private Long hairdresserId;
-    private Date date;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    private LocalDate date;
     private String time;
     private String email;
     private String phoneNumber;
+    private String status;
 
     public Long getServiceId() {
         return serviceId;
@@ -26,11 +32,11 @@ public class ReservationRequest {
         this.hairdresserId = hairdresserId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -56,5 +62,13 @@ public class ReservationRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
