@@ -101,4 +101,8 @@ public class ReservationServiceImpl {
 
         return existingReservations.isEmpty();
     }
+    public List<Reservation> getHairdresserCompletedReservations(Long hairdresserId) {
+        return reservationRepository.findHairdresserCompletedReservations(hairdresserId);
+    }
+
 }

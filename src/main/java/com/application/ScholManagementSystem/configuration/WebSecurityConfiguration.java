@@ -49,6 +49,7 @@ public class WebSecurityConfiguration {
                .requestMatchers(HttpMethod.PUT,"/reservations/**").permitAll()
                .requestMatchers(HttpMethod.GET,"/reservations/**").permitAll()
                .requestMatchers(HttpMethod.GET,"/reservations/user/**").permitAll()
+               .requestMatchers(HttpMethod.GET,"/reservations/hairdresser/**").permitAll()
                .requestMatchers(HttpMethod.GET,"/reservations").permitAll()
                .requestMatchers(HttpMethod.POST,"/reservations/**").permitAll()
                .requestMatchers(HttpMethod.POST,"/reservations").permitAll()

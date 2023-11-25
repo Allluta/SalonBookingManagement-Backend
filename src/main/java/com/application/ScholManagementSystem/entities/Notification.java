@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -16,7 +17,7 @@ public class Notification {
 
     private String date;
     private String message;
-    private LocalTime time;
+    private String time;
 
     private String userEmail;
 
@@ -52,11 +53,11 @@ public class Notification {
         this.userEmail = userEmail;
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }
