@@ -30,7 +30,6 @@ public class ServiceServiceImpl {
     }
 
     public Service updateService(Long id, Service service) {
-        // Dodaj logikę aktualizacji i zaktualizuj usługę
         return serviceRepository.save(service);
     }
 

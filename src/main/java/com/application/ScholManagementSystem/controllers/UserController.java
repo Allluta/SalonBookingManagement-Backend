@@ -16,8 +16,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserServiceImpl userServiceImpl; // Wstrzyknij odpowiedni serwis UserService
-
+    private UserServiceImpl userServiceImpl;
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepository.findByRole(UserRole.USER);

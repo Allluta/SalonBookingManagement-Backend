@@ -17,7 +17,7 @@ public class Notification {
 
     private String date;
     private String message;
-    private String time;
+    private LocalTime time;
 
     private String userEmail;
 
@@ -53,11 +53,11 @@ public class Notification {
         this.userEmail = userEmail;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 }

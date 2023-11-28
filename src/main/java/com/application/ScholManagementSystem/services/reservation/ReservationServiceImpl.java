@@ -53,18 +53,30 @@ public class ReservationServiceImpl {
         return reservationRepository.findHairdresserUpcomingReservations(hairdresserId);
     }
 
-    public void updateReservationStatus(Long reservationId, String status) {
-        Optional<Reservation> existingReservation = reservationRepository.findById(reservationId);
-        existingReservation.ifPresent(reservation -> {
-            System.out.println("Przed aktualizacją: " + reservation.getStatus());
-            reservation.setStatus(status);
-            reservationRepository.save(reservation);
-            System.out.println("Po aktualizacji: " + reservation.getStatus());
-            sendNotificationToUser(reservation);
-        });
+    public void updateReservation(Long reservationId, String status, LocalDate newDate, String newTime) {
+        try {
+            Optional<Reservation> existingReservation = reservationRepository.findById(reservationId);
+            if (existingReservation.isPresent()) {
+                Reservation reservation = existingReservation.get();
+                reservation.setStatus(status);
+
+                if (newDate != null) {
+                    reservation.setDate(newDate);
+                }
+                if (newTime != null) {
+                    reservation.setTime(newTime);
+                }
+
+                reservationRepository.save(reservation);
+                sendNotificationToUser(reservation);
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
     public void cancelReservation(Long reservationId) {
-        updateReservationStatus(reservationId, "Zrezygnowano");
+        updateReservation(reservationId, "Zrezygnowano", null, null);
     }
 
     private void sendNotificationToUser(Reservation reservation) {
@@ -77,13 +89,12 @@ public class ReservationServiceImpl {
                 message = "Dziękujemy za rezerwację. Prosimy oczekiwać na potwierdzenie.";
                 break;
             case "zatwierdzona":
-                message = "Twoja rezerwacja została zatwierdzona. Cieszymy się na spotkanie!";
+                message = "Twoja rezerwacja została zatwierdzona.";
                 break;
             case "odrzucona":
                 message = "Przepraszamy, rezerwacja została odrzucona. Prosimy spróbować ponownie lub skontaktować się z salonem.";
                 break;
             default:
-                message = "Dziękujemy za rezerwację.";
                 break;
         }
 

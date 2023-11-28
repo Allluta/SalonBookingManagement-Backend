@@ -75,23 +75,40 @@ public class ReservationController {
     @PutMapping("/{reservationId}")
     public ResponseEntity<?> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest request) {
         try {
+            System.out.println("Received request to update reservation. Reservation ID: " + reservationId + ", New date: " + request.getDate());
+
             Optional<Reservation> existingReservation = reservationServiceImpl.getReservation(reservationId);
             if (existingReservation.isPresent()) {
                 Reservation reservation = existingReservation.get();
                 reservation.setStatus(request.getStatus());
-                reservationServiceImpl.updateReservationStatus(reservation.getId(), request.getStatus());
+
+
+                if (request.getDate() != null) {
+                    reservationServiceImpl.updateReservation(
+                            reservation.getId(),
+                            request.getStatus(),
+                            request.getDate(),
+                            request.getTime());
+                } else {
+                    reservationServiceImpl.updateReservation(reservation.getId(), request.getStatus(), reservation.getDate(), reservation.getTime());
+                }
+
+                System.out.println("Reservation updated successfully. New status: " + request.getStatus() + ", New date: " + reservation.getDate());
+
                 return ResponseEntity.ok(reservation);
             } else {
+                System.out.println("Reservation not found.");
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
+            System.out.println("Error updating reservation: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas aktualizacji rezerwacji.");
         }
     }
     @PutMapping("/cancel/{reservationId}")
     public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
         try {
-            reservationServiceImpl.updateReservationStatus(reservationId, "Zrezygnowano");
+            reservationServiceImpl.updateReservation(reservationId, "Zrezygnowano", null, null);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas anulowania rezerwacji.");

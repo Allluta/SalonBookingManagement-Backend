@@ -29,7 +29,6 @@ public class PaymentService {
             return intent.getClientSecret();
         } catch (StripeException e) {
             e.printStackTrace();
-            // Handle the exception
             return null;
         }
     }

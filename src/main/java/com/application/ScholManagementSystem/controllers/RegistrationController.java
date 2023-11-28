@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200") // Dodaj odpowiedni adres URL swojej aplikacji Angular
+@CrossOrigin(origins = "http://localhost:4200")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
@@ -27,7 +27,7 @@ public class RegistrationController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Access-Control-Allow-Origin", "*"); // Ustaw odpowiednie źródło (np. adres Angular) lub "*".
+        responseHeaders.set("Access-Control-Allow-Origin", "*");
         responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
         responseHeaders.set("Access-Control-Allow-Headers", "Content-Type");
         try {

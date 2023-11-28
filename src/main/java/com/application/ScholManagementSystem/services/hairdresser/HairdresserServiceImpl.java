@@ -28,7 +28,6 @@ public class HairdresserServiceImpl {
 
         hairdresser.setEmail(hairdresser.getEmail());
 
-        // Tutaj możesz dodać logikę walidacji danych, jeśli jest to wymagane
         return hairdresserRepository.save(hairdresser);
     }
 
@@ -49,7 +48,6 @@ public class HairdresserServiceImpl {
         Optional<Hairdresser> existingHairdresser = hairdresserRepository.findById(id);
         if (existingHairdresser.isPresent()) {
             Hairdresser hairdresser = existingHairdresser.get();
-            // Tutaj możesz zaimplementować logikę aktualizacji danych profilu fryzjera
             hairdresser.setName(updatedHairdresser.getName());
             hairdresser.setDescription(updatedHairdresser.getDescription());
             hairdresser.setExperience(updatedHairdresser.getExperience());
@@ -64,18 +62,6 @@ public class HairdresserServiceImpl {
 
     public void deleteHairdresser(Long id) {
         hairdresserRepository.deleteById(id);
-    }
-
-    public boolean verifyPassword(Long hairdresserId, String password) {
-
-        Hairdresser hairdresser = hairdresserRepository.findById(hairdresserId).orElse(null);
-
-        if (hairdresser != null) {
-            // Porównaj hasło z hasłem w bazie danych
-            return passwordEncoder.matches(password, hairdresser.getPassword());
-        } else {
-            return false;
-        }
     }
 }
 

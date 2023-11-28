@@ -7,12 +7,11 @@ import com.application.ScholManagementSystem.enums.UserRole;
 import com.application.ScholManagementSystem.repositories.HairdresserRepository;
 import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.services.hairdresser.HairdresserServiceImpl;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/hairdressers")
@@ -69,14 +68,4 @@ public class HairdresserController {
     public Hairdresser getHairdresserById(@PathVariable Long id) {
         return hairdresserServiceImpl.getHairdresserById(id);
     }
-    @PostMapping("/verifyPassword")
-    public boolean verifyPassword(@RequestBody VerifyPasswordRequest request) {
-        // Tutaj wykonaj logikę weryfikacji hasła
-        Long hairdresserId = request.getId();
-        String password = request.getPassword();
-
-        return hairdresserServiceImpl.verifyPassword(hairdresserId, password);
-    }
-
-
 }

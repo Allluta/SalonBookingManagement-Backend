@@ -32,9 +32,6 @@ public class PaymentController {
     }
     @PostMapping("/process-payment")
     public ResponseEntity<?> processPayment(@RequestBody Map<String, Object> paymentData) {
-        // Tutaj dodaj kod do przetwarzania płatności na podstawie otrzymanych danych
-        // Pamiętaj, żeby dostosować tę metodę do Twoich potrzeb i integracji z Stripe
-        // Zwróć odpowiedź w zależności od wyniku przetwarzania płatności
         return ResponseEntity.ok().body(Map.of("status", "success", "message", "Payment processed successfully"));
     }
 

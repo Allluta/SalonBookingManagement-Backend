@@ -63,6 +63,7 @@ public class WebSecurityConfiguration {
                .requestMatchers(HttpMethod.GET,"/notifications").permitAll()
                .requestMatchers(HttpMethod.GET,"/notifications/user/**").permitAll()
                .requestMatchers(HttpMethod.PUT,"/notifications/cancel/**").permitAll()
+               .requestMatchers(HttpMethod.PUT,"/reservations/**").permitAll()
                .anyRequest().authenticated()
                .and()
                .sessionManagement()
