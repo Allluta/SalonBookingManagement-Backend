@@ -32,5 +32,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query("SELECT r FROM Reservation r WHERE r.hairdresserId = :hairdresserId AND r.date < CURRENT_DATE ORDER BY r.date DESC")
     List<Reservation> findHairdresserCompletedReservations(@Param("hairdresserId") Long hairdresserId);
+    @Query("SELECT r FROM Reservation r WHERE r.hairdresserId = :hairdresserId")
+    List<Reservation> findHairdresserAllReservations(@Param("hairdresserId") Long hairdresserId);
 
 }

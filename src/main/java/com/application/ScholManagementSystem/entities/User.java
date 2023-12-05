@@ -1,6 +1,7 @@
 package com.application.ScholManagementSystem.entities;
 
 import com.application.ScholManagementSystem.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,6 +20,8 @@ public class User {
 
     private UserRole role;
     private Long hairdresserId;
+
+
 
     public Long getId() {
         return id;
@@ -75,4 +78,6 @@ public class User {
     public void setHairdresserId(Long hairdresserId) {
         this.hairdresserId = hairdresserId;
     }
+
+
 }

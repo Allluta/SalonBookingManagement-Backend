@@ -48,10 +48,9 @@ public class ReservationServiceImpl {
     public Optional<Reservation> getReservation(Long reservationId) {
         return reservationRepository.findById(reservationId);
     }
-
-    public List<Reservation> getHairdresserUpcomingReservations(Long hairdresserId) {
-        return reservationRepository.findHairdresserUpcomingReservations(hairdresserId);
-    }
+ public List<Reservation> getAllReservations(){
+        return reservationRepository.findAll();
+ }
 
     public void updateReservation(Long reservationId, String status, LocalDate newDate, String newTime) {
         try {
@@ -77,6 +76,24 @@ public class ReservationServiceImpl {
     }
     public void cancelReservation(Long reservationId) {
         updateReservation(reservationId, "Zrezygnowano", null, null);
+    }
+
+    public boolean isReservationAvailable(Long hairdresserId, LocalDate date, String time) {
+
+        List<Reservation> existingReservations = reservationRepository.checkReservationAvailability(hairdresserId, date, time);
+
+        return existingReservations.isEmpty();
+    }
+    public List<Reservation> getHairdresserCompletedReservations(Long hairdresserId) {
+        return reservationRepository.findHairdresserCompletedReservations(hairdresserId);
+    }
+
+    public List<Reservation> getHairdresserUpcomingReservations(Long hairdresserId) {
+        return reservationRepository.findHairdresserUpcomingReservations(hairdresserId);
+    }
+
+    public List<Reservation> getHairdresserAllReservations(Long hairdresserId) {
+        return reservationRepository.findHairdresserAllReservations(hairdresserId);
     }
 
     private void sendNotificationToUser(Reservation reservation) {
@@ -106,14 +123,5 @@ public class ReservationServiceImpl {
         notificationRepository.save(notification);
     }
 
-    public boolean isReservationAvailable(Long hairdresserId, LocalDate date, String time) {
-
-        List<Reservation> existingReservations = reservationRepository.checkReservationAvailability(hairdresserId, date, time);
-
-        return existingReservations.isEmpty();
-    }
-    public List<Reservation> getHairdresserCompletedReservations(Long hairdresserId) {
-        return reservationRepository.findHairdresserCompletedReservations(hairdresserId);
-    }
 
 }

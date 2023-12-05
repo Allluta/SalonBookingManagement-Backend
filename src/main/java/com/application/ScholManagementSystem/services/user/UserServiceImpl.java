@@ -20,8 +20,8 @@ public class UserServiceImpl {
     }
 
     public List<User> getAllUsers() {
-        return  userRepository.findByRole(UserRole.USER);
-
+        return userRepository.findByRole(UserRole.USER);
+    }
 
     }
-}
+

@@ -1,5 +1,6 @@
 package com.application.ScholManagementSystem.services.notification;
 
+import com.application.ScholManagementSystem.dto.NotificationRequest;
 import com.application.ScholManagementSystem.entities.Notification;
 import com.application.ScholManagementSystem.entities.User;
 import com.application.ScholManagementSystem.repositories.NotificationRepository;
@@ -21,18 +22,18 @@ public class NotificationServiceImpl {
     @Autowired
     private UserRepository userRepository;
 
-    public void sendNotificationToUser(String userEmail, String message) {
+    public void sendNotificationToUser(NotificationRequest request, String message) {
         Notification notification = new Notification();
 
         notification.setDate(LocalDate.now().toString());
         notification.setTime(LocalTime.now());
         notification.setMessage(message);
 
-        Optional<User> user = userRepository.findFirstByEmail(userEmail);
+        Optional<User> user = userRepository.findFirstByEmail(request.getUserEmail());
         user.ifPresent(u -> {
+            notification.setUserEmail(request.getUserEmail());
             notificationRepository.save(notification);
         });
-
     }
         public List<Notification> getNotificationsForUser(String userEmail) {
             return notificationRepository.findByUserEmail(userEmail);

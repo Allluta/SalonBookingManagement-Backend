@@ -35,6 +35,11 @@ public class ReservationController {
         }
     }
 
+    @GetMapping
+    public List<Reservation> getAllReservations(){
+        return reservationServiceImpl.getAllReservations();
+    }
+
     @GetMapping("/user/{userEmail}")
     public ResponseEntity<?> getUserReservations(@PathVariable String userEmail) {
         try {
@@ -53,25 +58,6 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas pobierania szczegółów rezerwacji.");
         }
     }
-    @GetMapping("/hairdresser/{hairdresserId}/upcoming")
-    public ResponseEntity<?> getHairdresserUpcomingReservations(@PathVariable Long hairdresserId) {
-        try {
-            List<Reservation> hairdresserUpcomingReservations = reservationServiceImpl.getHairdresserUpcomingReservations(hairdresserId);
-            return ResponseEntity.ok(hairdresserUpcomingReservations);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas pobierania nadchodzących rezerwacji fryzjera.");
-        }
-    }
-    @GetMapping("/hairdresser/{hairdresserId}/completed")
-    public ResponseEntity<?> getHairdresserCompletedReservations(@PathVariable Long hairdresserId) {
-        try {
-            List<Reservation> hairdresserCompletedReservations = reservationServiceImpl.getHairdresserCompletedReservations(hairdresserId);
-            return ResponseEntity.ok(hairdresserCompletedReservations);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas pobierania odbytych rezerwacji fryzjera.");
-        }
-    }
-
     @PutMapping("/{reservationId}")
     public ResponseEntity<?> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest request) {
         try {
@@ -114,6 +100,35 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas anulowania rezerwacji.");
         }
     }
+    @GetMapping("/hairdresser/{hairdresserId}/upcoming")
+    public ResponseEntity<?> getHairdresserUpcomingReservations(@PathVariable Long hairdresserId) {
+        try {
+            List<Reservation> hairdresserUpcomingReservations = reservationServiceImpl.getHairdresserUpcomingReservations(hairdresserId);
+            return ResponseEntity.ok(hairdresserUpcomingReservations);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas pobierania nadchodzących rezerwacji fryzjera.");
+        }
+    }
+    @GetMapping("/hairdresser/{hairdresserId}/completed")
+    public ResponseEntity<?> getHairdresserCompletedReservations(@PathVariable Long hairdresserId) {
+        try {
+            List<Reservation> hairdresserCompletedReservations = reservationServiceImpl.getHairdresserCompletedReservations(hairdresserId);
+            return ResponseEntity.ok(hairdresserCompletedReservations);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas pobierania odbytych rezerwacji fryzjera.");
+        }
+    }
+    @GetMapping("/hairdresser/{hairdresserId}/all")
+    public ResponseEntity<?> getHairdresserAllReservations(@PathVariable Long hairdresserId) {
+        try {
+            List<Reservation> hairdresserAllReservations = reservationServiceImpl.getHairdresserAllReservations(hairdresserId);
+            return ResponseEntity.ok(hairdresserAllReservations);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas pobierania wszystkich rezerwacji fryzjera.");
+        }
+    }
+
+
 }
 
 

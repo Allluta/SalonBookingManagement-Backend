@@ -1,12 +1,13 @@
 package com.application.ScholManagementSystem.controllers;
 
-import com.application.ScholManagementSystem.dto.VerifyPasswordRequest;
 import com.application.ScholManagementSystem.entities.Hairdresser;
+import com.application.ScholManagementSystem.entities.Review;
 import com.application.ScholManagementSystem.entities.User;
 import com.application.ScholManagementSystem.enums.UserRole;
 import com.application.ScholManagementSystem.repositories.HairdresserRepository;
 import com.application.ScholManagementSystem.repositories.UserRepository;
 import com.application.ScholManagementSystem.services.hairdresser.HairdresserServiceImpl;
+import com.application.ScholManagementSystem.services.review.ReviewServiceImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,13 @@ public class HairdresserController {
     private final BCryptPasswordEncoder passwordEncoder;
      private final HairdresserRepository hairdresserRepository;
 
-
-    public HairdresserController(HairdresserServiceImpl hairdresserServiceImpl, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, HairdresserRepository hairdresserRepository) {
+private final ReviewServiceImpl reviewServiceImpl;
+    public HairdresserController(HairdresserServiceImpl hairdresserServiceImpl, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, HairdresserRepository hairdresserRepository, ReviewServiceImpl reviewServiceImpl) {
         this.hairdresserServiceImpl = hairdresserServiceImpl;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.hairdresserRepository = hairdresserRepository;
+        this.reviewServiceImpl = reviewServiceImpl;
     }
 
     @PostMapping
@@ -67,5 +69,9 @@ public class HairdresserController {
     @GetMapping("/{id}")
     public Hairdresser getHairdresserById(@PathVariable Long id) {
         return hairdresserServiceImpl.getHairdresserById(id);
+    }
+    @GetMapping("/{id}/reviews")
+    public List<Review> getHairdresserReviews(@PathVariable Long id) {
+        return reviewServiceImpl.getReviewsByHairdresserId(id);
     }
 }
