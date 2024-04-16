@@ -2,9 +2,9 @@ Project Overview
 
 The engineering thesis encompasses the development of a comprehensive web application tailored for the hair salon industry. The backend system plays a crucial role in enabling key features such as:
 
-    Account Registration: Clients and hairdressers can create and manage their accounts, providing necessary information for identification and communication purposes.
-    Service Selection: Clients can browse through available services offered by the salon, view details, and make selections based on their preferences.
-    Appointment Management: The system manages appointments efficiently, allowing clients to schedule, modify, and cancel appointments. Hairdressers can view their schedules and manage appointments accordingly.
+- Account Registration: Clients and hairdressers can create and manage their accounts, providing necessary information for identification and communication purposes.
+- Service Selection: Clients can browse through available services offered by the salon, view details, and make selections based on their preferences.
+- Appointment Management: The system manages appointments efficiently, allowing clients to schedule, modify, and cancel appointments. Hairdressers can view their schedules and manage appointments accordingly.
 
 Technologies Used
 
